@@ -18,7 +18,7 @@ const LEVEL_LABEL: Record<string, string> = {
 function scoutUrl(match: TBAMatch, ytId: string, alliance: 'red' | 'blue'): string {
   const red  = match.alliances.red.team_keys.map(k => k.replace('frc', '')).join(',');
   const blue = match.alliances.blue.team_keys.map(k => k.replace('frc', '')).join(',');
-  return `/scout?videoId=${ytId}&matchKey=${match.key}&redTeams=${red}&blueTeams=${blue}&alliance=${alliance}`;
+  return `/scout?videoId=${ytId}&matchKey=${match.key}&redTeams=${red}&blueTeams=${blue}&alliance=${alliance}&back=/`;
 }
 
 function AllianceTeams({ teams, myTeam, alliance }: {

@@ -53,14 +53,14 @@ function TeamRow({
 
   return (
     <div
-      className={`flex items-center gap-3 px-3 py-2 rounded-lg min-h-[40px] transition-colors ${
+      className={`flex items-center gap-1.5 sm:gap-3 px-2 sm:px-3 py-2 rounded-lg min-h-[40px] transition-colors ${
         isMyTeam ? 'bg-yellow-900/20 border border-yellow-600/30' : 'hover:bg-white/4'
       }`}
     >
       {/* Team number */}
       <Link
         href={`/teams/${teamNumber}`}
-        className={`font-bold text-sm w-12 shrink-0 hover:underline ${
+        className={`font-bold text-sm w-10 sm:w-12 shrink-0 hover:underline ${
           isMyTeam ? 'text-yellow-300' : 'text-white hover:text-green-400'
         }`}
       >
@@ -69,15 +69,15 @@ function TeamRow({
       </Link>
 
       {/* Avg */}
-      <div className="flex items-center gap-1.5 flex-1">
-        <span className="text-[9px] text-gray-600 uppercase tracking-wider">avg</span>
+      <div className="flex items-center gap-1 sm:gap-1.5 flex-1">
+        <span className="hidden sm:inline text-[9px] text-gray-600 uppercase tracking-wider">avg</span>
         <span className={`font-mono font-bold text-sm ${timeColor(avg)}`}>
           {avg !== null ? `${avg.toFixed(1)}s` : '—'}
         </span>
       </div>
 
-      {/* Best */}
-      <div className="flex items-center gap-1.5">
+      {/* Best — hidden on small screens */}
+      <div className="hidden sm:flex items-center gap-1.5">
         <span className="text-[9px] text-gray-600 uppercase tracking-wider">best</span>
         <span className={`font-mono text-sm ${best !== null ? 'text-green-400 font-semibold' : 'text-gray-700'}`}>
           {best !== null ? `${best.toFixed(1)}s` : '—'}
@@ -96,7 +96,7 @@ export default function NextMatchCard({ match, isNext, redTeams, blueTeams, myTe
   return (
     <div className="bg-[#151a27] border border-white/8 rounded-xl overflow-hidden">
       {/* Header */}
-      <div className="flex items-center gap-3 px-4 py-2.5 border-b border-white/8 bg-white/3">
+      <div className="flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2.5 border-b border-white/8 bg-white/3">
         {/* Status chip */}
         <div className="flex items-center gap-1.5 shrink-0">
           <div
@@ -113,10 +113,9 @@ export default function NextMatchCard({ match, isNext, redTeams, blueTeams, myTe
           {formatMatchLabel(match)}
         </span>
 
-        {/* Time */}
-        {timeStr && (
-          <span className="text-xs text-gray-500 flex-1">{timeStr}</span>
-        )}
+        {/* Time — flex-1 spacer, hidden text on small screens */}
+        <span className="flex-1 min-w-0 text-xs text-gray-500 truncate hidden sm:block">{timeStr}</span>
+        {!timeStr && <span className="flex-1" />}
 
         {/* Scout button */}
         {scoutHref && (

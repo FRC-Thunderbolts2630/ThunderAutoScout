@@ -135,7 +135,8 @@ function ScoutPageInner() {
 
       if (data.fallbackMode) {
         setAnalysisStatus('fallback');
-        setAnalysisError(data.fallbackReason ?? 'yt-dlp unavailable');
+        setAnalysisError('Auto-detection is not available in this environment. Set the match start time manually.');
+        setManualMode(true);
         return;
       }
       if (data.matchStartSeconds != null) {
@@ -297,6 +298,7 @@ function ScoutPageInner() {
   const firstTeam        = [...redTeamNumbers, ...blueTeamNumbers].find(n => n > 0) ?? '';
   const scoutedTeamParam = params?.get('scoutedTeam');
   const backTeam         = scoutedTeamParam ? parseInt(scoutedTeamParam, 10) : firstTeam;
+  const backHref         = params?.get('back') ?? null;
 
   // ── Derived control panel state ──────────────────────────────────────────
   type ControlState = 'detecting' | 'detected' | 'manual' | 'error';
@@ -313,7 +315,7 @@ function ScoutPageInner() {
       <div className="flex items-center justify-between px-4 py-2 border-b border-white/5 shrink-0 min-h-[44px]">
         <div className="flex items-center gap-3">
           {eventKey && (
-            <Link href={`/teams/${backTeam}`}
+            <Link href={backHref ?? `/teams/${backTeam}`}
               className="inline-flex items-center gap-1 text-sm text-gray-400 hover:text-white transition-colors">
               <ArrowLeftIcon className="w-4 h-4" />Back
             </Link>
@@ -430,6 +432,9 @@ function ScoutPageInner() {
             {/* State C: Manual */}
             {!dbLoading && controlState === 'manual' && (
               <div className="space-y-2">
+                {analysisStatus === 'fallback' && (
+                  <p className="text-xs text-gray-500">{analysisError}</p>
+                )}
                 <div className="flex items-center justify-between">
                   <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Match Start</span>
                   {matchStartOffset !== null && (
